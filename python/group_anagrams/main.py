@@ -25,13 +25,7 @@ def group_anagrams(words: list) -> list:
 
 
 def check_anagram(w1: str, w2: str) -> bool:
-    w1_list = list(w1)
-    w2_list = list(w2)
-
-    w1_list.sort()
-    w2_list.sort()
-
-    return w1_list == w2_list
+    return sorted(list(w1)) == sorted(list(w2))
 
 
 if __name__ == "__main__":
