@@ -9,9 +9,29 @@ def main():
 
 def process_orders(orders_list: List[str]) -> int:
     total_orders = 0
+    total_ribbon = 0
     for order in orders_list:
         total_orders += get_total_order(order)
-    return total_orders
+        total_ribbon += get_total_ribbon(order)
+    return total_orders, total_ribbon
+
+
+def get_total_ribbon(order: str) -> int:
+    metrics = order.split("x")
+    metrics = [int(n) for n in metrics]
+    metrics.sort()
+    return get_perimeter(metrics[0], metrics[1]) + get_bow_made(metrics)
+
+
+def get_bow_made(metrics: List[int]) -> int:
+    total = 1
+    for metric in metrics:
+        total *= metric
+    return total
+
+
+def get_perimeter(a: int, b: int) -> int:
+    return (a * 2) + (b * 2)
 
 
 def get_total_order(order: str) -> int:
