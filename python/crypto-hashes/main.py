@@ -15,7 +15,7 @@ def main():
 
 
 def check_hash(hash_input: str) -> bool:
-    return hash_input.startswith("00000")
+    return hash_input.startswith("000000")
 
 
 def get_md5(puzzle_input: str) -> str:
