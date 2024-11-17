@@ -12,10 +12,17 @@ def main():
 
 def get_operation(s: str) -> dict:
     inst_list = s.split(" ")
-    if len(operations) == 4:
-        instruct_dict = {
+    if len(inst_list) == 5:
+        return {
             "operation": inst_list[0] + " " + inst_list[1],
-            "from_coordinates": 
+            "from_coordinates": inst_list[2],
+            "to_coordinates": inst_list[4],
+        }
+    else:
+        return {
+            "operation": inst_list[0],
+            "from_coordinates": inst_list[1],
+            "to_coordinates": inst_list[3],
         }
 
 
