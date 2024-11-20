@@ -17,6 +17,17 @@ def main():
             wires[aux[-1]] = int(aux[0])
         elif len(aux) == 4:
             wires[aux[-1]] = not_gate(wires[aux[1]])
+        else:
+            match aux[1]:
+                case "AND":
+                    and_gate(wires[aux[0]], wires[aux[2]])
+                case "OR":
+                    or_gate(wires[aux[0]], wires[aux[2]])
+                case "LSHIFT":
+                    lshift_gate(wires[aux[0]], int(aux[2]))
+                case "RSHIFT":
+                    rshift_gate(wires[aux[0]], int(aux[2]))
+
     print(wires)
 
 
@@ -31,43 +42,21 @@ def not_gate(x: int):
 
 
 def and_gate(a: str, b: str):
-    r_value = ""
-    min_len = len(a) if len(a) < len(b) else len(b)
-    for i in range(0, min_len):
-        if int(a[i]) and int(b[i]):
-            r_value += "1"
-        else:
-            r_value += "0"
-
-    print(r_value)
-    print(int(r_value, 2))
+    return int(a, 2) & int(b, 2)
 
 
 def or_gate(a: str, b: str):
-    r_value = ""
-    min_len = len(a) if len(a) < len(b) else len(b)
-    for i in range(0, min_len):
-        if int(a[i]) or int(b[i]):
-            r_value += "1"
-        else:
-            r_value += "0"
-
-    print(r_value)
-    print(int(r_value, 2))
+    return int(a, 2) | int(b, 2)
 
 
 def lshift_gate(a: str, count: int):
     aux = int(a, 2)
-    aux = aux << count
-    print(aux)
-    print(format(aux, "016b"))
+    return aux << count
 
 
 def rshift_gate(a: str, count: int):
     aux = int(a, 2)
-    aux = aux >> count
-    print(aux)
-    print(format(aux, "016b"))
+    return aux >> count
 
 
 # def rshift_gate(a: str, count: int):
