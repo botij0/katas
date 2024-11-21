@@ -11,13 +11,13 @@ def main():
     # file_content = read_file("example_input.txt")
     file_content = read_file("puzzle_input.txt")
     content = file_content.split("\n")
-    wires = {}
+    wires = {"b": 46065}
     while len(wires) < len(content):
         for row in content:
             aux = row.split(" ")
             if len(aux) == 3:
                 val = get_value(aux[0], wires)
-                if val != -1:
+                if val != -1 and aux[-1] not in wires:
                     wires[aux[-1]] = val
             elif len(aux) == 4:
                 val = get_value(aux[1], wires)
