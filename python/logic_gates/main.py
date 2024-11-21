@@ -1,14 +1,4 @@
 def main():
-    # x = 123
-    # y = 456
-    # print(x & y)
-    # # d = bin(x) and bin(y)
-    # # print(int(d, 2))
-    # print(bin(x & y))
-    # and_gate(format(x, "016b"), format(y, "016b"))
-    # or_gate(format(x, "016b"), format(y, "016b"))
-    # lshift_gate(format(x, "016b"), 2)
-    # file_content = read_file("example_input.txt")
     file_content = read_file("puzzle_input.txt")
     content = file_content.split("\n")
     wires = {"b": 46065}
