@@ -5,8 +5,9 @@ def main():
 
     results = []
     get_city_combinations(city_dict.keys(), [], results)
-    low_distance = get_low_distance(results, city_dict)
-    print(low_distance)
+    distances = get_distances(results, city_dict)
+    print("Lowest distance: " + str(distances[0]))
+    print("Longest distance: " + str(distances[-1]))
 
 
 def get_city_dict(file_content: list) -> dict:
@@ -35,7 +36,7 @@ def get_city_combinations(cities: list, current_comb: list, results: list) -> li
             current_comb.pop()
 
 
-def get_low_distance(cities_comb: list, cities_dict: dict) -> int:
+def get_distances(cities_comb: list, cities_dict: dict) -> list:
     results = []
     for c_comb in cities_comb:
         partial_result = 0
@@ -44,7 +45,7 @@ def get_low_distance(cities_comb: list, cities_dict: dict) -> int:
         results.append(partial_result)
 
     results.sort()
-    return results[0]
+    return results
 
 
 def read_file(filename: str) -> list:
