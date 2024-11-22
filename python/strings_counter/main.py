@@ -1,19 +1,25 @@
 import re
 
+
 def main():
-    example = [
-        "",
-        "abc",
-        "aaa\"aaa",
-        "\x27"
+    lines = read_file("puzzle_input.txt")
+    memory_len = 0
+    literal_len = 0
+    for line in lines:
+        literal_len += len(line)
+        aux = line.encode("utf-8").decode("unicode-escape")
+        memory_len += len(aux)-2
 
-    ]
+    
+    print(literal_len)
+    print(memory_len)
+    print("Resultado: " + str(literal_len- memory_len))
 
-    # Valid Solution ?
-    print (sum(len(s[:-1]) - len(eval(s)) for s in open('puzzle_input.txt')))
-    print (sum(2+s.count('\\')+s.count('"') for s in open('puzzle_input.txt')))
 
-
+def read_file(file_name: str) -> list:
+    with open(file_name, "r") as f:
+        return f.read().split()
+    
 
 if __name__ == "__main__":
     main()
