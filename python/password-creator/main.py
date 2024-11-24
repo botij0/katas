@@ -1,5 +1,6 @@
 PUZZLE_INPUT = "cqjxjnds"
 EXAMPLE = "abcdefgh"
+PART_2 = "cqjxxyzz"
 
 # Ascii 97 to 122
 INVALID = ["i", "l", "o"]
@@ -7,7 +8,7 @@ INVALID_NUMS = [105, 108, 111]
 
 
 def main():
-    print(get_new_psw(PUZZLE_INPUT))
+    print(get_new_psw(PART_2))
 
 
 def get_new_psw(current_psw: str) -> str:
