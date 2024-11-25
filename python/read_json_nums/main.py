@@ -35,13 +35,14 @@ def process_list(x_list: list) -> int:
 
 def process_dict(x_dict: dict) -> int:
     total = 0
-    for value in x_dict.values():
-        if isinstance(value, int):
-            total += value
-        elif isinstance(value, list):
-            total += process_list(value)
-        elif isinstance(value, dict):
-            total += process_dict(value)
+    if "red" not in x_dict.keys() and "red" not in x_dict.values():
+        for value in x_dict.values():
+            if isinstance(value, int):
+                total += value
+            elif isinstance(value, list):
+                total += process_list(value)
+            elif isinstance(value, dict):
+                total += process_dict(value)
 
     return total
 
