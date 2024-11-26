@@ -4,7 +4,12 @@ OPERATOR = {"gain": 1, "lose": -1}
 
 
 def main():
-    people = get_people_dict(read_file("puzzle_input.txt"))
+    # pt 1
+    # people = get_people_dict(read_file("puzzle_input.txt"))
+    # print(get_happiness(get_permutations(people), people))
+
+    # pt 2
+    people = get_people_dict_pt2(read_file("puzzle_input.txt"))
     print(get_happiness(get_permutations(people), people))
 
 
@@ -22,6 +27,16 @@ def get_people_dict(content: list) -> dict:
 
         people[aux[0]][aux[-1]] = int(aux[3]) * OPERATOR[aux[2]]
 
+    return people
+
+
+def get_people_dict_pt2(content: list) -> dict:
+    people = get_people_dict(content)
+    people["you"] = {}
+    for key in people.keys():
+        if key != "you":
+            people["you"][key] = 0
+            people[key]["you"] = 0
     return people
 
 
