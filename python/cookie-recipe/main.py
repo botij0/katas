@@ -30,13 +30,15 @@ def calculate_ingredients_score(ingredients_dict: dict, comb: list[int]) -> int:
     durability = 0
     flavor = 0
     texture = 0
+    calories = 0
     for i, key in enumerate(ingredients_dict.keys()):
         capacity += ingredients_dict[key]["capacity"] * comb[i]
         durability += ingredients_dict[key]["durability"] * comb[i]
         flavor += ingredients_dict[key]["flavor"] * comb[i]
         texture += ingredients_dict[key]["texture"] * comb[i]
+        calories += ingredients_dict[key]["calories"] * comb[i]
 
-    return get_score(capacity, durability, flavor, texture)
+    return get_score(capacity, durability, flavor, texture) if calories == 500 else 0
 
 
 def get_ingredients_dict(ingredients: list) -> dict:
