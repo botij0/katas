@@ -2,6 +2,7 @@ def main():
     file_content = read_file("puzzle_input.txt")
     col1, col2 = get_columns(file_content)
     print(get_distance(col1, col2))
+    print(get_distance_pt2(col1, col2))
 
 
 def get_columns(n_list: list) -> tuple:
@@ -24,6 +25,13 @@ def get_distance(col1: list, col2: list) -> int:
         else:
             total += col1[i] - col2[i]
 
+    return total
+
+
+def get_distance_pt2(col1: list, col2: list) -> int:
+    total = 0
+    for i in range(0, len(col1)):
+        total += col1[i] * col2.count(col1[i])
     return total
 
 
