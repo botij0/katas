@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2015", // Cambia a es2015 o posterior (como es2020 o esnext)
+    "lib": ["es2015", "dom"], // Asegúrate de incluir las bibliotecas necesarias
+    "strict": true, // Opcional: habilita un chequeo más estricto
+    "outDir": "./dist", // Opcional: define el directorio de salida para los archivos compilados
+    "rootDir": "./src" // Opcional: define el directorio raíz de tus archivos TypeScript
+  }
+}
+
