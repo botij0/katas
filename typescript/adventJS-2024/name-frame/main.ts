@@ -1,13 +1,11 @@
 function createFrame(names: string[]): string {
-    // Code here
     const longest = biggerString(names);
-    const aux = "*";
-    let s = aux.repeat(longest.length + 5);
+    let s = "*".repeat(longest.length + 4);
     for (let name of names) {
-        s += "\n* " + name + " *";
+        s += "\n* " + name + " ".repeat(longest.length - name.length) + " *";
     }
     s += "\n";
-    s += aux.repeat(longest.length + 5);
+    s += "*".repeat(longest.length + 4);
     return s;
 }
 
