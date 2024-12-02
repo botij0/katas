@@ -6,24 +6,51 @@ def main():
 def get_reports_safe(reports: list) -> int:
     count = 0
     for report in reports:
-        count += check_report(report)
-
+        aux = [int(n) for n in report.split(" ")]
+        aux_count = check_report(aux.copy())
+        if aux_count == 0:
+            aux_count = check_report_2(aux.copy())
+        count += aux_count
     return count
 
 
-def check_report(report: str):
-    aux = [int(n) for n in report.split(" ")]
-    ascending = aux[0] < aux[1]
+def check_report(report: list, changes: int = 0):
+    if changes > 1:
+        return 0
+    ascending = report[0] < report[1]
 
-    for i in range(0, len(aux) - 1):
-        if aux[i] == aux[i + 1]:
-            return 0
+    for i in range(0, len(report) - 1):
+        if report[i] == report[i + 1]:
+            report.pop(i)
+            return 0 if check_report(report, changes + 1) == 0 else 1
 
-        if not check_correct_levels(aux[i], aux[i + 1], ascending):
-            return 0
+        if not check_correct_levels(report[i], report[i + 1], ascending):
+            report.pop(i)
+            return 0 if check_report(report, changes + 1) == 0 else 1
         else:
-            if not check_diff(aux[i], aux[i + 1], ascending):
-                return 0
+            if not check_diff(report[i], report[i + 1], ascending):
+                report.pop(i + 1)
+                return 0 if check_report(report, changes + 1) == 0 else 1
+    return 1
+
+
+def check_report_2(report: list, changes: int = 0):
+    if changes > 1:
+        return 0
+    ascending = report[0] < report[1]
+
+    for i in range(0, len(report) - 1):
+        if report[i] == report[i + 1]:
+            report.pop(i + 1)
+            return 0 if check_report(report, changes + 1) == 0 else 1
+
+        if not check_correct_levels(report[i], report[i + 1], ascending):
+            report.pop(i + 1)
+            return 0 if check_report(report, changes + 1) == 0 else 1
+        else:
+            if not check_diff(report[i], report[i + 1], ascending):
+                report.pop(i)
+                return 0 if check_report(report, changes + 1) == 0 else 1
     return 1
 
 
