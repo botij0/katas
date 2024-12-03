@@ -1,56 +1,56 @@
 def main():
     file_content = read_file("puzzle_input.txt")
-    print(get_reports_safe(file_content))
+    print(get_reports_safe_pt2(file_content))
 
 
 def get_reports_safe(reports: list) -> int:
     count = 0
     for report in reports:
         aux = [int(n) for n in report.split(" ")]
-        aux_count = check_report(aux.copy())
-        if aux_count == 0:
-            aux_count = check_report_2(aux.copy())
-        count += aux_count
+        count += check_report(aux.copy())
+
     return count
 
 
-def check_report(report: list, changes: int = 0):
-    if changes > 1:
-        return 0
-    ascending = report[0] < report[1]
+def get_reports_safe_pt2(reports: list):
+    count = 0
+    for report in reports:
+        aux = [int(n) for n in report.split(" ")]
 
+        if check_report(aux) == 1:
+            count += 1
+        else:
+            count += check_report_pt2(aux)
+
+    return count
+
+
+def check_report_pt2(report: list):
+    corrects = []
+    for i in range(0, len(report)):
+        if corrects.count(1) >= 1:
+            return 1
+
+        x = report.copy()
+        x.pop(i)
+        corrects.append(check_report(x))
+
+    return 0 if corrects.count(1) < 1 else 1
+
+
+# 367
+def check_report(report: list):
+    ascending = report[0] < report[1]
     for i in range(0, len(report) - 1):
         if report[i] == report[i + 1]:
-            report.pop(i)
-            return 0 if check_report(report, changes + 1) == 0 else 1
+            return 0
 
         if not check_correct_levels(report[i], report[i + 1], ascending):
-            report.pop(i)
-            return 0 if check_report(report, changes + 1) == 0 else 1
+            return 0
+
         else:
             if not check_diff(report[i], report[i + 1], ascending):
-                report.pop(i + 1)
-                return 0 if check_report(report, changes + 1) == 0 else 1
-    return 1
-
-
-def check_report_2(report: list, changes: int = 0):
-    if changes > 1:
-        return 0
-    ascending = report[0] < report[1]
-
-    for i in range(0, len(report) - 1):
-        if report[i] == report[i + 1]:
-            report.pop(i + 1)
-            return 0 if check_report(report, changes + 1) == 0 else 1
-
-        if not check_correct_levels(report[i], report[i + 1], ascending):
-            report.pop(i + 1)
-            return 0 if check_report(report, changes + 1) == 0 else 1
-        else:
-            if not check_diff(report[i], report[i + 1], ascending):
-                report.pop(i)
-                return 0 if check_report(report, changes + 1) == 0 else 1
+                return 0
     return 1
 
 
