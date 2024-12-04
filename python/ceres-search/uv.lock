@@ -1,0 +1,7 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "ceres-search"
+version = "0.1.0"
+source = { virtual = "." }
