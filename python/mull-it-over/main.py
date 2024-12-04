@@ -2,30 +2,32 @@ import re
 
 
 def main():
-    file_content = read_file("example_pt2.txt")
+    file_content = read_file("puzzle_input.txt")
     total_dict = (
         get_dos_dict(file_content)
         | get_dont_dict(file_content)
         | get_mults_dict(file_content)
     )
     dict_ordenado = {k: total_dict[k] for k in sorted(total_dict)}
-    print(dict_ordenado)
+    print(process_dict(dict_ordenado, file_content))
     # pt 1
     # nums = get_multiplications(file_content)
     # print(get_result(nums))
 
 
-def process_dict(dict_ordenado: dict) -> int:
+def process_dict(dict_ordenado: dict, file_content: str) -> int:
     disabled = False
     total = 0
-    for value in dict_ordenado.values():
-        if value == "do()":
-            disabled = True
-        elif value == "don't()":
+    for k, v in dict_ordenado.items():
+        if v == "do()":
             disabled = False
-        elif value == "mul()":
+        elif v == "don't()":
+            disabled = True
+        elif v == "mul()":
             if not disabled:
-                total += 1
+                mults = get_multiplications(file_content[k : k + 12])[0]
+                total += int(mults[0]) * int(mults[1])
+    return total
 
 
 def get_dos_dict(file_content: str) -> dict:
