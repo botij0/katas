@@ -1,11 +1,11 @@
 def main():
-    file_content = read_file("example.txt")
+    file_content = read_file("puzzle_input.txt")
     total = (
-        get_inverse_horizontal_xmas(file_content)  # si 3
-        + get_horizontal_xmas(file_content)  # si 2
-        + get_vertical_xmas(file_content)  # si 1
-        + get_inverse_vertical_xmas(file_content)  # si 2
-        + get_diagonal_xmas(file_content)  # no 8
+        get_inverse_horizontal_xmas(file_content)
+        + get_horizontal_xmas(file_content)
+        + get_vertical_xmas(file_content)
+        + get_inverse_vertical_xmas(file_content)
+        + get_diagonal_xmas(file_content)
     )
     print(get_diagonal_xmas(file_content))
     print(total)
@@ -18,83 +18,56 @@ def get_diagonal_xmas(file_content: str) -> int:
         for j in range(len(rows_map[i])):
             if i < 3:
                 if rows_map[i][j] == "X":
-                    count += check_down_diagonal(rows_map, i, j)
+                    count += check_diagonal(rows_map, i, j, "down")
             elif i >= len(rows_map) - 3:
                 if rows_map[i][j] == "X":
-                    count += check_up_diagonal(rows_map, i, j)
+                    count += check_diagonal(rows_map, i, j, "up")
             else:
                 if rows_map[i][j] == "X":
-                    count += check_down_diagonal(rows_map, i, j)
-                    count += check_up_diagonal(rows_map, i, j)
+                    count += check_diagonal(rows_map, i, j, "down")
+                    count += check_diagonal(rows_map, i, j, "up")
     return count
 
 
-def check_down_diagonal(r: list[list[str]], i: int, j: int) -> int:
+def check_diagonal(r: list[list[str]], i: int, j: int, orientation: str) -> int:
+    sign = 1 if orientation == "down" else -1
     if j < 3:
         return (
             1
-            if r[i + 1][j + 1] == "M"
-            and r[i + 2][j + 2] == "A"
-            and r[i + 3][j + 3] == "S"
+            if r[i + sign * 1][j + 1] == "M"
+            and r[i + sign * 2][j + 2] == "A"
+            and r[i + sign * 3][j + 3] == "S"
             else 0
         )
     elif j >= len(r[i]) - 3:
         return (
             1
-            if r[i + 1][j - 1] == "M"
-            and r[i + 2][j - 2] == "A"
-            and r[i + 3][j - 3] == "S"
+            if r[i + sign * 1][j - 1] == "M"
+            and r[i + sign * 2][j - 2] == "A"
+            and r[i + sign * 3][j - 3] == "S"
             else 0
         )
     else:
-        return (
+        aux = 0
+        aux += (
             1
             if (
-                r[i + 1][j + 1] == "M"
-                and r[i + 2][j + 2] == "A"
-                and r[i + 3][j + 3] == "S"
-            )
-            or (
-                r[i + 1][j - 1] == "M"
-                and r[i + 2][j - 2] == "A"
-                and r[i + 3][j - 3] == "S"
+                r[i + sign * 1][j + 1] == "M"
+                and r[i + sign * 2][j + 2] == "A"
+                and r[i + sign * 3][j + 3] == "S"
             )
             else 0
         )
-
-
-def check_up_diagonal(r: list[list[str]], i: int, j: int) -> int:
-    if j < 3:
-        return (
-            1
-            if r[i - 1][j + 1] == "M"
-            and r[i - 2][j + 2] == "A"
-            and r[i - 3][j + 3] == "S"
-            else 0
-        )
-    elif j >= len(r[i]) - 3:
-        return (
-            1
-            if r[i - 1][j - 1] == "M"
-            and r[i - 2][j - 2] == "A"
-            and r[i - 3][j - 3] == "S"
-            else 0
-        )
-    else:
-        return (
+        aux += (
             1
             if (
-                r[i - 1][j + 1] == "M"
-                and r[i - 2][j + 2] == "A"
-                and r[i - 3][j + 3] == "S"
-            )
-            or (
-                r[i - 1][j - 1] == "M"
-                and r[i - 2][j - 2] == "A"
-                and r[i - 3][j - 3] == "S"
+                r[i + sign * 1][j - 1] == "M"
+                and r[i + sign * 2][j - 2] == "A"
+                and r[i + sign * 3][j - 3] == "S"
             )
             else 0
         )
+        return aux
 
 
 def get_horizontal_xmas(file_content: str) -> int:
