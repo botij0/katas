@@ -1,27 +1,24 @@
 def main():
-    file_content = read_file("example.txt")
+    file_content = read_file("puzzle_input.txt")
     rules, updates = get_info_from_file(file_content)
     rules_dict = get_rules_dict(rules)
     print(process_updates(updates, rules_dict))
 
 
 def process_updates(updates: list, rules_dict: dict) -> int:
-    is_valid = True
     count = 0
     for update in updates:
+        is_valid = True
         update = update.split(",")
         for i in range(1, len(update)):
-            print(update, i)
             if update[i] not in rules_dict:
                 continue
             else:
                 for j in range(0, i):
                     if update[j] in rules_dict[update[i]]:
-                        print(update, update[j], rules_dict[update[i]], update[i])
                         is_valid = False
                         break
         if is_valid:
-            print(update)
             count += int(update[int(len(update) / 2)])
     return count
 
