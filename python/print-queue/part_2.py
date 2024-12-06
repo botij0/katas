@@ -1,9 +1,16 @@
 def main():
-    file_content = read_file("example.txt")
+    file_content = read_file("puzzle_input.txt")
     rules, updates = get_info_from_file(file_content)
     rules_dict = get_rules_dict(rules)
     incorrect_updates = get_incorrect_updates(updates, rules_dict)
-    print(incorrect_updates)
+
+    corrected_updates = []
+    total = 0
+    for in_update in incorrect_updates:
+        aux = correct_update(in_update, rules_dict)
+        total += int(aux[int(len(aux) / 2)])
+        corrected_updates.append(aux)
+    print(total)
 
 
 def get_incorrect_updates(updates: list, rules_dict: dict) -> list:
@@ -32,7 +39,12 @@ def correct_update(update: list, rules_dict: dict) -> list:
             continue
         for j in range(0, i):
             if update[j] in rules_dict[update[i]]:
-                update = correct_update()
+                aux = update[j]
+                update[j] = update[i]
+                update[i] = aux
+                update = correct_update(update, rules_dict)
+                break
+    return update
 
 
 def read_file(filename: str) -> str:
