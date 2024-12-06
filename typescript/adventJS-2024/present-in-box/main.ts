@@ -1,20 +1,17 @@
 function inBox(box: string[]): boolean {
-    const isEdgeValid = (line: string) =>
-        line.split("").every((char) => char === "#");
-    if (!isEdgeValid(box[0]) || !isEdgeValid(box[box.length - 1])) {
+    const mySet = new Set(box[0]);
+    const mySet2 = new Set(box[box.length - 1]);
+    if (mySet.size !== 1 || mySet2.size !== 1) {
         return false;
     }
-
     for (let i = 1; i < box.length - 1; i++) {
-        const line = box[i];
-        if (line[0] !== "#" || line[line.length - 1] !== "#") {
+        if (box[i][0] !== "#" || box[i][box[i].length - 1] !== "#") {
             return false;
         }
-        if (line.includes("*")) {
+        if (box[i].includes("*")) {
             return true;
         }
     }
-
     return false;
 }
 
