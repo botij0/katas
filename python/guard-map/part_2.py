@@ -1,16 +1,56 @@
 def main():
     file_content = read_file("puzzle_input.txt")
     file_array = [list(line) for line in file_content]
+
     i, j, direction = find_guard(file_array)
     print(f"Guard is at ({i}, {j}) and direction is {direction}")
 
-    coords = set()
-    coords.add((i, j))
+    obs_loop = 0
     while not is_map_limits(file_array, i, j, direction):
-        i, j, direction = do_move(file_array, direction, i, j)
-        coords.add((i, j))
+        if check_loop(file_array, i, j, direction):
+            obs_loop += 1
 
-    print(f"X count: {len(coords)}")
+        i, j, direction = do_move(file_array, direction, i, j)
+
+    print(f"Obstacle loop count: {obs_loop}")
+
+
+def check_loop(file_array: list, i: int, j: int, direction: str) -> bool:
+    ii, jj, _ = find_guard(file_array)
+    visited = set()
+    oi, oj = get_next_obstacle(i, j, direction, file_array)
+
+    if (ii == oi and jj == oj) or (oi == -1 and oj == -1):
+        return False
+
+    file_array[oi][oj] = "O"
+
+    while not is_map_limits(file_array, i, j, direction):
+        if (i, j, direction) in visited:
+            file_array[oi][oj] = "."
+            return True
+
+        visited.add((i, j, direction))
+        i, j, direction = do_move(file_array, direction, i, j)
+
+    file_array[oi][oj] = "."
+    return False
+
+
+def get_next_obstacle(i: int, j: int, direction: str, file_array: list) -> tuple:
+    if direction == "^":
+        if file_array[i - 1][j] != "#":
+            return (i - 1, j)
+    elif direction == ">":
+        if file_array[i][j + 1] != "#":
+            return (i, j + 1)
+    elif direction == "<":
+        if file_array[i][j - 1] != "#":
+            return (i, j - 1)
+    elif direction == "v":
+        if file_array[i + 1][j] != "#":
+            return (i + 1, j)
+    return -1, -1
 
 
 def find_guard(file_array: list) -> tuple:
@@ -40,30 +80,36 @@ def is_map_limits(file_array: list, i: int, j: int, direction: str) -> bool:
 def do_move(file_array: list, direction: str, i: int, j: int) -> tuple:
     fi, fj = 0, 0
     if direction == "^":
-        if file_array[i - 1][j] == "#":
+        if file_array[i - 1][j] == "#" or file_array[i - 1][j] == "O":
             fi, fj, direction = do_move(file_array, ">", i, j)
         else:
             fi, fj = i - 1, j
 
     elif direction == ">":
-        if file_array[i][j + 1] == "#":
+        if file_array[i][j + 1] == "#" or file_array[i][j + 1] == "O":
             fi, fj, direction = do_move(file_array, "v", i, j)
         else:
             fi, fj = i, j + 1
 
     elif direction == "<":
-        if file_array[i][j - 1] == "#":
+        if file_array[i][j - 1] == "#" or file_array[i][j - 1] == "O":
             fi, fj, direction = do_move(file_array, "^", i, j)
         else:
             fi, fj = i, j - 1
 
     elif direction == "v":
-        if file_array[i + 1][j] == "#":
+        if file_array[i + 1][j] == "#" or file_array[i + 1][j] == "O":
             fi, fj, direction = do_move(file_array, "<", i, j)
         else:
             fi, fj = i + 1, j
 
     return fi, fj, direction
+
+
+def display_map(file_array: list) -> None:
+    for line in file_array:
+        print("".join(line))
+    print()
 
 
 def read_file(filename: str) -> str:
