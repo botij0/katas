@@ -4,13 +4,11 @@ operator_dict = {"+": lambda x, y: x + y, "*": lambda x, y: x * y}
 def main():
     file_contents = read_file("puzzle_input.txt")
     bridge_dict = get_bridge_dict(file_contents)
-    # print(bridge_dict)
     total = 0
     for bridge_id, bridge in bridge_dict.items():
         combs = []
         get_operators_combs(len(bridge) - 1, [], combs)
         if check_bridge(bridge_id, bridge, combs):
-            print(f"bridge {bridge_id} repaired")
             total += bridge_id
     print(f"total repaired: {total}")
 
@@ -20,6 +18,8 @@ def check_bridge(bridge_id: int, bridge: list, combination: list):
         x = bridge[0]
         for i in range(len(comb)):
             x = operator_dict[comb[i]](x, bridge[i + 1])
+            if x > bridge_id:
+                break
         if x == bridge_id:
             return True
     return False
