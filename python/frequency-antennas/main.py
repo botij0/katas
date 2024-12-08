@@ -16,16 +16,22 @@ def put_antinode(antennas_dict: dict, mapp: list) -> int:
             i, j = base
             for relative in relatives:
                 i2, j2 = relative
-                if (
-                    i + i2 < len(mapp)
-                    and i + i2 >= 0
-                    and j + j2 < len(mapp[0])
-                    and j + j2 >= 0
-                    and mapp[i + i2][j + j2] != "#"
-                ):
+                if check_valid_position(i, i2, j, j2, mapp):
                     mapp[i + i2][j + j2] = "#"
                     count += 1
     return count
+
+
+def check_valid_position(i, i2, j, j2, mapp):
+    if (
+        i + i2 < len(mapp)
+        and i + i2 >= 0
+        and j + j2 < len(mapp[0])
+        and j + j2 >= 0
+        and mapp[i + i2][j + j2] != "#"
+    ):
+        return True
+    return False
 
 
 def get_antennas_dict(file_content: str, mapp: list) -> dict:
