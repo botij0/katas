@@ -1,36 +1,37 @@
 def main():
-    file_content = read_file("example.txt")
+    file_content = read_file("mini_example.txt")
     file_content = replace_free_space(file_content)
-
+    print(file_content)
     file_blocks = move_file_blocks(file_content)
     print(file_blocks)
     checksum = get_checksum(file_blocks)
     print(checksum)
 
 
-def get_checksum(file_content: str) -> int:
-    files = list(file_content)
+def get_checksum(file_blocks: str) -> int:
+    blocks = list(file_blocks)
     total = 0
-    for i in range(len(files)):
-        if files[i] == ".":
-            continue
-        total += int(files[i]) * i
+    for i in range(len(blocks)):
+        total += int(blocks[i]) * i
+        if total >= 9223372036854775:
+            print("Overflow")
     return total
 
 
 def move_file_blocks(file_content: str) -> str:
+    if file_content.find(".") == -1:
+        return file_content
     content_list = list(file_content)
-    for i in range(len(content_list) - 1, 0, -1):
-        if content_list[i] == ".":
-            continue
-        index = content_list.index(".")
-        if index == -1:
-            break
-        content_list[index] = content_list[i]
-        content_list[i] = "."
-        if content_list[:i].count(".") == 0:
-            break
-    return "".join(content_list)
+    i = len(content_list) - 1
+    while i >= 0:
+        if content_list[i] != ".":
+            index = content_list.index(".")
+            if index > i:
+                break
+            content_list[index] = content_list[i]
+            content_list[i] = "."
+        i -= 1
+    return "".join(content_list).replace(".", "")
 
 
 def replace_free_space(file_content: str) -> str:
