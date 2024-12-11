@@ -1,40 +1,41 @@
 def main():
-    file_content = read_file("example.txt")
+    file_content = read_file("puzzle_input.txt")
     numbers = get_numbers_map(file_content)
     display_numbers_map(numbers)
 
-    tree = build_tree(numbers)
-    print(tree)
+    build_tree(numbers)
 
 
-def build_tree(numbers_map: list, target=0) -> dict:
-    partial_tree = {}
+def build_tree(numbers_map: list) -> dict:
+    tree = {}
+    score = 0
+
     for i, line in enumerate(numbers_map):
         for j, number in enumerate(line):
-            if number == target and target != 9:
-                partial_tree[i, j] = get_next_pos((i, j), 1, numbers_map)
-            elif number == target and target == 9:
-                partial_tree[i, j] = 0
+            if number == 0:
+                results = set()
+                tree[i, j] = get_branches((i, j), 1, numbers_map, results)
+                score += len(results)
 
-    if target == 9:
-        return partial_tree
-
-    next_tree = build_tree(numbers_map, target + 1)
-    return partial_tree | next_tree
+    print(score)
+    return tree
 
 
-def get_next_pos(init_pos: tuple, target: int, number_map: list) -> list:
-    routes = {}
-    i, j = init_pos
+def get_branches(parent: tuple, target: int, number_map: list, results: set) -> dict:
+    branches = {}
+    if target >= 10:
+        results.add(parent)
+        return branches
+    i, j = parent
     if i < len(number_map) - 1 and number_map[i + 1][j] == target:
-        routes[i + 1, j] = 1
-    elif i > 0 and number_map[i - 1][j] == target:
-        routes[i - 1, j] = 1
-    elif j < len(number_map[i]) - 1 and number_map[i][j + 1] == target:
-        routes[i, j + 1] = 1
-    elif j > 0 and number_map[i][j - 1] == target:
-        routes[i, j - 1] = 1
-    return routes
+        branches[i + 1, j] = get_branches((i + 1, j), target + 1, number_map, results)
+    if i > 0 and number_map[i - 1][j] == target:
+        branches[i - 1, j] = get_branches((i - 1, j), target + 1, number_map, results)
+    if j < len(number_map[i]) - 1 and number_map[i][j + 1] == target:
+        branches[i, j + 1] = get_branches((i, j + 1), target + 1, number_map, results)
+    if j > 0 and number_map[i][j - 1] == target:
+        branches[i, j - 1] = get_branches((i, j - 1), target + 1, number_map, results)
+    return branches
 
 
 def read_file(filename: str) -> list:

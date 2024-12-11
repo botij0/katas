@@ -1,0 +1,36 @@
+Si tengo dos diccionarios en Python, por ejemplo:
+"""
+dic1 = {
+    (1,2):{
+        (4,5):{},
+        (6,7): {}
+    }
+}
+
+dic2 = {
+        (4,5):{
+            (9,0):{},
+            (8,1):{}
+        },
+        (6,7): {
+            (1,6):{},
+            (2,7):{}
+        }
+}
+
+"""
+Como podria unirlos en un solo diccionario para que queden asi:
+"""
+dic = {
+    (1,2):{
+        (4,5):{
+            (9,0):{},
+            (8,1):{}
+        },
+        (6,7): {
+            (1,6):{},
+            (2,7):{}
+        }
+    },
+}
+"""
