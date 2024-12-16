@@ -1,5 +1,5 @@
 def main():
-    file_content = read_file("puzzle_input.txt")
+    file_content = read_file("example.txt")
     file_array = [list(line) for line in file_content]
 
     i, j, direction = find_guard(file_array)
@@ -12,17 +12,17 @@ def main():
 
         i, j, direction = do_move(file_array, direction, i, j)
 
+    print(i, j)
     print(f"Obstacle loop count: {obs_loop}")
 
 
 def check_loop(file_array: list, i: int, j: int, direction: str) -> bool:
-    ii, jj, _ = find_guard(file_array)
-    visited = set()
     oi, oj = get_next_obstacle(i, j, direction, file_array)
-
+    ii, jj, _ = find_guard(file_array)
     if (ii == oi and jj == oj) or (oi == -1 and oj == -1):
         return False
 
+    visited = set()
     file_array[oi][oj] = "O"
 
     while not is_map_limits(file_array, i, j, direction):
