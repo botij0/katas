@@ -30,20 +30,45 @@ INST_TO_REG = {
 def main():
     file_content = read_file("puzzle_input.txt")
     registers = parse_registers(file_content)
-    print(registers)
+
     program = parse_program(file_content)
+    expected_result = get_expected_result(program)
     print(program)
-    execute_program(registers, program)
-    print()
-    print(registers)
+    print(expected_result)
+    rega = get_rega_val(expected_result, program, registers)
+    print(rega)
 
 
-def execute_program(registers, program):
+# A % 8 -> B
+# B XOR x -> B
+# A//2**B -> C
+# B XOR C -> B
+# B XOR C -> B
+# A//2**3 -> A
+# PRINT B % 8
+
+
+def get_rega_val(expected_result, program, registers):
+    result = []
+    i = 8 ** (len(expected_result) - 1)
+    its = 0
+    while result != expected_result:
+        i += (its * 8) + 2
+        registers["A"] = i
+        result = execute_program(registers, program, expected_result)
+        its += 1
+        # print(result)
+    return i
+
+
+def execute_program(registers, program, expected_result):
     i = 0
+    result = []
+
     while i < len(program):
         inst, operand = program[i]
         operand = get_true_operand(registers, operand, inst)
-        print(registers)
+
         if inst in INST_TO_REG:
             registers[INST_TO_REG[inst]["res"]] = INSTRUCTIONS[inst](
                 registers[INST_TO_REG[inst]["op"]], operand
@@ -58,8 +83,25 @@ def execute_program(registers, program):
             else:
                 i += 1
         elif inst == 5:
-            print(INSTRUCTIONS[inst](registers["A"], operand), end=",")
+            n = INSTRUCTIONS[inst](registers["A"], operand)
+            result.append(n)
+            if (
+                len(result) > len(expected_result)
+                or n != expected_result[result.index(n, -1)]
+            ):
+                result = []
+                break
             i += 1
+    return result
+
+
+def get_expected_result(program):
+    expected_result = []
+    for pair in program:
+        inst, operand = pair
+        expected_result.append(inst)
+        expected_result.append(operand)
+    return expected_result
 
 
 def get_true_operand(registers, op, inst):
