@@ -18,12 +18,6 @@ INSTRUCTIONS = {
     7: lambda a, x: a // 2**x,
 }
 
-OPERANDS = {
-    4: "A",
-    5: "B",
-    6: "C",
-}
-
 INST_TO_REG = {
     0: {"op": "A", "res": "A"},
     1: {"op": "B", "res": "B"},
@@ -31,8 +25,6 @@ INST_TO_REG = {
     6: {"op": "A", "res": "B"},
     7: {"op": "A", "res": "C"},
 }
-
-NEEDS_COMB_OP = [0, 2, 5, 6, 7]
 
 
 def main():
@@ -50,8 +42,7 @@ def execute_program(registers, program):
     i = 0
     while i < len(program):
         inst, operand = program[i]
-        if inst in NEEDS_COMB_OP:
-            operand = operand if operand < 4 else registers[OPERANDS[operand]]
+        operand = get_true_operand(registers, operand, inst)
 
         if inst in INST_TO_REG:
             registers[INST_TO_REG[inst]["res"]] = INSTRUCTIONS[inst](
@@ -69,6 +60,14 @@ def execute_program(registers, program):
         elif inst == 5:
             print(INSTRUCTIONS[inst](registers["A"], operand), end=",")
             i += 1
+
+
+def get_true_operand(registers, op, inst):
+    inst_with_combo_op = [0, 2, 5, 6, 7]
+    combo_op_regs = {4: "A", 5: "B", 6: "C"}
+    if inst in inst_with_combo_op:
+        return op if op < 4 else registers[combo_op_regs[op]]
+    return op
 
 
 def parse_registers(file_content):
