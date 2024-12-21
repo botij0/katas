@@ -1,14 +1,16 @@
 def main():
     mapp, instructions = read_file("puzzle_input.txt")
     inst_list = list(instructions)
+
     mapp = mapp.split("\n")
     mapp = [list(map(lambda x: x.strip(), line)) for line in mapp]
     display_map(mapp)
+
     robot_pos = get_robot_position(mapp)
     for i in range(len(inst_list)):
         if inst_list[i] == "\n":
             continue
-        mapp, robot_pos = do_instruction(mapp, inst_list[i], robot_pos)
+        robot_pos = do_instruction(mapp, inst_list[i], robot_pos)
 
     display_map(mapp)
     print(get_sum_gps_coords(mapp))
@@ -43,11 +45,13 @@ def do_instruction(mapp, inst, robot_pos):
     i, j = robot_pos
     if inst == ">":
         if mapp[i][j + 1] == "#":
-            return mapp, robot_pos
+            return robot_pos
+
         elif mapp[i][j + 1] == ".":
             mapp[i][j + 1] = "@"
             mapp[i][j] = "."
-            return mapp, (i, j + 1)
+            return (i, j + 1)
+
         else:
             f_space = find_right_row_free_space(mapp, i, j)
             if f_space is not None:
@@ -57,16 +61,19 @@ def do_instruction(mapp, inst, robot_pos):
                     aux += 1
                 mapp[i][j + 1] = "@"
                 mapp[i][j] = "."
-                return mapp, (i, j + 1)
+                return (i, j + 1)
             else:
-                return mapp, robot_pos
+                return robot_pos
+
     elif inst == "<":
         if mapp[i][j - 1] == "#":
-            return mapp, robot_pos
+            return robot_pos
+
         elif mapp[i][j - 1] == ".":
             mapp[i][j - 1] = "@"
             mapp[i][j] = "."
-            return mapp, (i, j - 1)
+            return (i, j - 1)
+
         else:
             f_space = find_left_row_free_space(mapp, i, j)
             if f_space is not None:
@@ -76,16 +83,20 @@ def do_instruction(mapp, inst, robot_pos):
                     aux -= 1
                 mapp[i][j - 1] = "@"
                 mapp[i][j] = "."
-                return mapp, (i, j - 1)
+                return (i, j - 1)
+
             else:
-                return mapp, robot_pos
+                return robot_pos
+
     elif inst == "v":
         if mapp[i + 1][j] == "#":
-            return mapp, robot_pos
+            return robot_pos
+
         elif mapp[i + 1][j] == ".":
             mapp[i + 1][j] = "@"
             mapp[i][j] = "."
-            return mapp, (i + 1, j)
+            return (i + 1, j)
+
         else:
             f_space = find_down_col_free_space(mapp, j, i)
             if f_space is not None:
@@ -95,16 +106,19 @@ def do_instruction(mapp, inst, robot_pos):
                     aux += 1
                 mapp[i + 1][j] = "@"
                 mapp[i][j] = "."
-                return mapp, (i + 1, j)
+                return (i + 1, j)
             else:
-                return mapp, robot_pos
+                return robot_pos
+
     elif inst == "^":
         if mapp[i - 1][j] == "#":
-            return mapp, robot_pos
+            return robot_pos
+
         elif mapp[i - 1][j] == ".":
             mapp[i - 1][j] = "@"
             mapp[i][j] = "."
-            return mapp, (i - 1, j)
+            return (i - 1, j)
+
         else:
             f_space = find_up_col_free_space(mapp, j, i)
             if f_space is not None:
@@ -114,9 +128,9 @@ def do_instruction(mapp, inst, robot_pos):
                     aux -= 1
                 mapp[i - 1][j] = "@"
                 mapp[i][j] = "."
-                return mapp, (i - 1, j)
+                return (i - 1, j)
             else:
-                return mapp, robot_pos
+                return robot_pos
 
 
 def find_right_row_free_space(mapp, row, start_col):
