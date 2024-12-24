@@ -75,12 +75,12 @@ def find_target(maze: list, target: str):
     return None
 
 
-def read_file(filename):
+def read_file(filename: str) -> list[str]:
     with open(filename) as f:
         return [line.strip() for line in f.readlines()]
 
 
-def display_maze(maze):
+def display_maze(maze: list[str]):
     for line in maze:
         print(line)
 

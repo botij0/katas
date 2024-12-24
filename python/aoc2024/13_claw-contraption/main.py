@@ -17,7 +17,7 @@ def main():
     print(total)
 
 
-def check_valid_result(x, y):
+def check_valid_result(x: int, y: int) -> bool:
     if x < 100 and y < 100:
         if len(str(x).split(".")[-1]) == 1 and len(str(y).split(".")[-1]) == 1:
             return True
@@ -25,15 +25,15 @@ def check_valid_result(x, y):
 
 
 # Sistema de ecuaciones
-def get_result(ax, ay, bx, by, px, py):
+def get_result(ax: int, ay: int, bx: int, by: int, px: int, py: int) -> tuple[int, int]:
     y = ((ax * py) - (ay * px)) / ((by * ax) - (bx * ay))
     x = (px - bx * y) / ax
     return x, y
 
 
-def get_buttons_list(file_contents: list):
+def get_buttons_list(file_contents: list) -> list[dict]:
     buttons_list = []
-    for i, file_content in enumerate(file_contents):
+    for _, file_content in enumerate(file_contents):
         buttons = file_content.split("\n")
         buttons_dict = {
             "a": {"x": 0, "y": 0},
@@ -56,7 +56,7 @@ def get_buttons_list(file_contents: list):
     return buttons_list
 
 
-def read_file(filename: str):
+def read_file(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().split("\n\n")
 

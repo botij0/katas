@@ -1,13 +1,3 @@
-# Inst
-# 0 - Division A/x^2 -> A
-# 1 - B XOR x -> B
-# 2 - combo x -> B
-# 3 - if A!=0 goto x
-# 4 - B XOR C -> B
-# 5 - combo x -> output
-# 6 - Division A/x^2 -> B
-# 7 - Division A/x^2 -> C
-
 INSTRUCTIONS = {
     0: lambda a, x: a // 2**x,
     1: lambda b, x: b ^ x,
@@ -34,16 +24,13 @@ def main():
     program = parse_program(file_content)
     print(program)
     execute_program(registers, program)
-    print()
-    print(registers)
 
 
-def execute_program(registers, program):
+def execute_program(registers: dict, program: list):
     i = 0
     while i < len(program):
         inst, operand = program[i]
         operand = get_true_operand(registers, operand, inst)
-        print(registers)
         if inst in INST_TO_REG:
             registers[INST_TO_REG[inst]["res"]] = INSTRUCTIONS[inst](
                 registers[INST_TO_REG[inst]["op"]], operand
@@ -62,15 +49,15 @@ def execute_program(registers, program):
             i += 1
 
 
-def get_true_operand(registers, op, inst):
+def get_true_operand(registers: dict, operand: int, inst: int) -> int:
     inst_with_combo_op = [0, 2, 5, 6, 7]
     combo_op_regs = {4: "A", 5: "B", 6: "C"}
     if inst in inst_with_combo_op:
-        return op if op < 4 else registers[combo_op_regs[op]]
-    return op
+        return operand if operand < 4 else registers[combo_op_regs[operand]]
+    return operand
 
 
-def parse_registers(file_content):
+def parse_registers(file_content: str) -> dict:
     registers = {}
     for line in file_content.splitlines():
         if line.startswith("Register"):
@@ -79,16 +66,15 @@ def parse_registers(file_content):
     return registers
 
 
-def parse_program(file_content):
+def parse_program(file_content: str) -> list:
     program = []
-    program_line = file_content.splitlines()[-1]
-    program_line = program_line.split(":")[-1].split(",")
+    program_line = file_content.splitlines()[-1].split(":")[-1].split(",")
     for i in range(0, len(program_line) - 1, 2):
         program.append((int(program_line[i]), int(program_line[i + 1])))
     return program
 
 
-def read_file(filename):
+def read_file(filename: str) -> str:
     with open(filename, "r") as f:
         return f.read()
 

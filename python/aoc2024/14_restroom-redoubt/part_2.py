@@ -13,11 +13,11 @@ def main():
             print(lowest_safety_factor, i)
 
 
-def get_middles(x, y):
+def get_middles(x: int, y: int) -> tuple[int, int]:
     return x // 2, y // 2
 
 
-def get_safety_factor(final_positions: list[tuple]):
+def get_safety_factor(final_positions: list[tuple]) -> int:
     cuadrants = [0, 0, 0, 0]
     x, y = get_middles(101, 103)
     for pos in final_positions:
@@ -35,7 +35,7 @@ def get_safety_factor(final_positions: list[tuple]):
     return cuadrants[0] * cuadrants[1] * cuadrants[2] * cuadrants[3]
 
 
-def get_robots_list(file_contents: list[str]):
+def get_robots_list(file_contents: list[str]) -> list[dict]:
     robots = []
     for line in file_contents:
         p, v = line.split(" ")
@@ -54,13 +54,13 @@ def get_robots_list(file_contents: list[str]):
 
 def get_final_position_robot(
     robot: dict,
-):
+) -> tuple[int, int]:
     robot["p"] = move_robot(robot["p"], robot["v"])
 
     return robot["p"]
 
 
-def move_robot(pos: tuple, v: tuple):
+def move_robot(pos: tuple, v: tuple) -> tuple:
     pos1 = pos[0] + v[0]
     pos2 = pos[1] + v[1]
     if pos1 < 0:
@@ -75,7 +75,7 @@ def move_robot(pos: tuple, v: tuple):
     return pos
 
 
-def read_file(filename):
+def read_file(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().splitlines()
 

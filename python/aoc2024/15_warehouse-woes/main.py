@@ -16,7 +16,7 @@ def main():
     print(get_sum_gps_coords(mapp))
 
 
-def get_sum_gps_coords(mapp):
+def get_sum_gps_coords(mapp: list[list[str]]) -> int:
     total = 0
     for i in range(len(mapp)):
         for j in range(len(mapp[i])):
@@ -25,7 +25,7 @@ def get_sum_gps_coords(mapp):
     return total
 
 
-def get_robot_position(mapp):
+def get_robot_position(mapp: list[list[str]]) -> tuple[int, int] | None:
     for i in range(len(mapp)):
         for j in range(len(mapp[i])):
             if mapp[i][j] == "@":
@@ -33,7 +33,7 @@ def get_robot_position(mapp):
     return None, None
 
 
-def display_map(mapp):
+def display_map(mapp: list[list[str]]):
     for i in range(len(mapp)):
         for j in range(len(mapp[i])):
             print(mapp[i][j], end="")
@@ -41,8 +41,11 @@ def display_map(mapp):
     print()
 
 
-def do_instruction(mapp, inst, robot_pos):
+def do_instruction(
+    mapp: list[list[str]], inst: str, robot_pos: tuple[int, int]
+) -> tuple[int, int]:
     i, j = robot_pos
+
     if inst == ">":
         if mapp[i][j + 1] == "#":
             return robot_pos
@@ -133,7 +136,9 @@ def do_instruction(mapp, inst, robot_pos):
                 return robot_pos
 
 
-def find_right_row_free_space(mapp, row, start_col):
+def find_right_row_free_space(
+    mapp: list[list[str]], row: int, start_col: int
+) -> int | None:
     for i in range(start_col, len(mapp[row])):
         if mapp[row][i] == "#":
             break
@@ -142,7 +147,9 @@ def find_right_row_free_space(mapp, row, start_col):
     return None
 
 
-def find_left_row_free_space(mapp, row, start_col):
+def find_left_row_free_space(
+    mapp: list[list[str]], row: int, start_col: int
+) -> int | None:
     for i in range(start_col, 0, -1):
         if mapp[row][i] == "#":
             break
@@ -151,7 +158,9 @@ def find_left_row_free_space(mapp, row, start_col):
     return None
 
 
-def find_down_col_free_space(mapp, col, start_row):
+def find_down_col_free_space(
+    mapp: list[list[str]], col: int, start_row: int
+) -> int | None:
     for i in range(start_row, len(mapp)):
         if mapp[i][col] == "#":
             break
@@ -160,7 +169,9 @@ def find_down_col_free_space(mapp, col, start_row):
     return None
 
 
-def find_up_col_free_space(mapp, col, start_row):
+def find_up_col_free_space(
+    mapp: list[list[str]], col: int, start_row: int
+) -> int | None:
     for i in range(start_row, 0, -1):
         if mapp[i][col] == "#":
             break
@@ -169,7 +180,7 @@ def find_up_col_free_space(mapp, col, start_row):
     return None
 
 
-def read_file(filename):
+def read_file(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().split("\n\n")
 
