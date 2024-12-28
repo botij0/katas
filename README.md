@@ -1,7 +1,7 @@
 # katas
-Repsitorio con los enunciados y soluciones de diferentes Katas (pruebas técnicas de programación)
+Repository with the statements and solutions of different Katas (technical programming tests).
 
-El repositorio estará estructurado en diferentes carpetas para cada lenguaje empleado para resolver la Kata. Principalmente habrá los siguientes:
+The repository will be structured in different folders for each language used to solve the Kata. Mainly there will be the following:
 - Python
 - Typescript
 - Java
