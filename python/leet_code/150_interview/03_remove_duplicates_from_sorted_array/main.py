@@ -5,6 +5,7 @@ class Solution(object):
         :rtype: int
         """
         nums[:] = list(set(nums))
+        nums.sort()
         return len(nums)
 
 
