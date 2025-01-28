@@ -4,7 +4,8 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        for n in nums:
+        aux = set(nums)
+        for n in aux:
             while nums.count(n) > 2:
                 nums.remove(n)
         return len(nums)
