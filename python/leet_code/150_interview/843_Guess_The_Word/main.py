@@ -23,7 +23,6 @@ class Solution(object):
         :rtype: None
         """
         words = self.sort_max_diff(words)
-        print(words)
         tries = 0
         coincidence_word = ""
         max_coincidence = 0
@@ -33,50 +32,29 @@ class Solution(object):
                 print("you failed")
                 return
 
-            coincidence_word, max_coincidence, tries = self.word_try(
-                word,
-                master,
-                bad_letters,
-                max_coincidence,
-                coincidence_word,
-                tries,
-            )
-
-            if max_coincidence == 6:
+            if self.should_try_new_word(
+                word, coincidence_word, max_coincidence, bad_letters
+            ):
+                current_coincidences = master.guess(word)
+                tries += 1
                 print(
-                    "You guessed the secret word correctly. Secret word is",
-                    coincidence_word,
-                    tries,
+                    word, coincidence_word, tries, max_coincidence, current_coincidences
                 )
-                return
 
-    def word_try(
-        self,
-        word: str,
-        master: Master,
-        bad_letters: dict,
-        max_coincidence: int,
-        coincidence_word: str,
-        tries: int,
-    ):
-        if self.should_try_new_word(
-            word, coincidence_word, max_coincidence, bad_letters
-        ):
-            current_coincidences = master.guess(word)
-            tries += 1
-            print(word, coincidence_word, tries, max_coincidence, current_coincidences)
+                if current_coincidences == 0:
+                    self.update_bad_letters(coincidence_word, word, bad_letters)
 
-            if current_coincidences == 0:
-                self.update_bad_letters(coincidence_word, word, bad_letters)
+                if current_coincidences == 6:
+                    print(
+                        "You guessed the secret word correctly. Secret word is",
+                        coincidence_word,
+                        tries,
+                    )
+                    return
 
-            if current_coincidences == 6:
-                return word, current_coincidences, tries
-
-            if current_coincidences > max_coincidence:
-                max_coincidence = current_coincidences
-                coincidence_word = word
-
-        return coincidence_word, max_coincidence, tries
+                if current_coincidences > max_coincidence:
+                    max_coincidence = current_coincidences
+                    coincidence_word = word
 
     def should_try_new_word(
         self,
