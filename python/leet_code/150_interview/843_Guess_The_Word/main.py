@@ -22,7 +22,8 @@ class Solution(object):
         :type master: Master
         :rtype: None
         """
-        words.sort()
+        words = self.sort_max_diff(words)
+        print(words)
         tries = 0
         coincidence_word = ""
         max_coincidence = 0
@@ -125,6 +126,15 @@ class Solution(object):
             if word[i] == coincidence_word[i]:
                 bad_letters_coincidence.append((i, coincidence_word[i]))
         return bad_letters_coincidence
+
+    def sort_max_diff(self, arr: list) -> list:
+        arr.sort()
+        r = []
+        while arr:
+            r.append(arr.pop(-1))
+            if arr:
+                r.append(arr.pop(0))
+        return r
 
 
 if __name__ == "__main__":
