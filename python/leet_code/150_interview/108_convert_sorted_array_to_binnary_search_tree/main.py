@@ -14,12 +14,11 @@ class Solution:
         if len(nums) < 2:
             return TreeNode(nums[0])
         index_center = len(nums) // 2
-        center = nums[index_center]
+        center_val = nums[index_center]
         left_array = nums[:index_center]
         right_array = nums[index_center + 1 :]
-        print(left_array, right_array)
         return TreeNode(
-            center,
+            center_val,
             left=self.sortedArrayToBST(left_array) if len(left_array) > 0 else None,
             right=self.sortedArrayToBST(right_array) if len(right_array) > 0 else None,
         )
