@@ -7,27 +7,19 @@ class Solution:
         can = False if final > 0 else True
         i = 0
         while i < final:
-            print(i)
             if nums[i] + i >= final:
                 can = True
+                break
+
+            if nums[i] == 0:
                 break
 
             i = self.get_next_step(nums, i)
             if i == -1:
                 break
-
-        for i in range(final):
-            if nums[i] == 0:
-                break
-            if nums[i] + i >= final:
-                can = True
-                break
         return can
 
     def get_next_step(self, nums: List[int], current: int) -> int:
-        if nums[current] == 0:
-            return -1
-
         val = nums[current]
         i = 1
         max_val = 0
