@@ -4,20 +4,23 @@ from typing import List
 class Solution:
     def jump(self, nums: List[int]) -> int:
         final = len(nums) - 1
-        can = 0
+        n_jumps = 0
         i = 0
         while i < final:
             if nums[i] == 0:
                 break
+
             if nums[i] + i >= final:
-                can += 1
+                n_jumps += 1
                 break
 
             i = self.get_next_step(nums, i)
-            can += 1
+            n_jumps += 1
+
             if i == -1:
                 break
-        return can
+
+        return n_jumps
 
     def get_next_step(self, nums: List[int], current: int) -> int:
         val = nums[current]
