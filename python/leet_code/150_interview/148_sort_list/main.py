@@ -13,35 +13,38 @@ class Solution:
             return None
 
         min_val = self.find_min(head)
-        print_linked_list(head)
+        if min_val == head:
+            head = head.next
+
         new_head = min_val
         current_min = min_val
         next_min = min_val
-        while :
+        while current_min:
             next_min = self.find_min(head)
-            print_linked_list(head)
+
+            if next_min and next_min == head:
+                head = head.next
+
             current_min.next = next_min
             current_min = next_min
 
-        current_min.next = head
         return new_head
 
     def find_min(slef, head: Optional[ListNode]) -> ListNode:
-        if head.next is None:
-            return head
-
         min_val = head
         current = head
         before = None
         before_min = head
         while current:
-            if current.val < min_val.val:
+            if current.val <= min_val.val:
                 min_val = current
                 before_min = before
             before = current
             current = current.next
 
-        before_min.next = min_val.next
+        if min_val != head:
+            before_min.next = min_val.next
+
         return min_val
 
 
@@ -68,7 +71,7 @@ def array_to_linked_list(arr):
 
 
 if __name__ == "__main__":
-    arr = [3, 2, 4]
+    arr = []
     linked_list = array_to_linked_list(arr)
     print(linked_list)
     head = Solution().sortList(linked_list)
