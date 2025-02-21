@@ -29,93 +29,22 @@ class Solution:
         self, board: List[List[int]], i: int, j: int, n_i: int, n_j: int
     ) -> int:
         count = 0
-
-        if n_i == 1 and n_j == 1:
-            return count
-
-        if self.is_corner(board, i, j, n_i, n_j):
-            if n_i == 1 and j == 0:
-                count += board[i][j + 1]
-            elif n_i == 1 and j == n_j - 1:
-                count += board[i][j - 1]
-            elif n_j == 1 and i == 0:
-                count += board[i + 1][j]
-            elif n_j == 1 and i == n_i - 1:
-                count += board[i - 1][j]
-            elif i == 0 and j == 0:
-                count += board[i][j + 1]
-                count += board[i + 1][j]
-                count += board[i + 1][j + 1]
-            elif i == 0 and j == n_j - 1:
-                count += board[i][j - 1]
-                count += board[i + 1][j]
-                count += board[i + 1][j - 1]
-            elif i == n_i - 1 and j == 0:
-                count += board[i - 1][j]
-                count += board[i - 1][j + 1]
-                count += board[i][j + 1]
-            else:
-                count += board[i - 1][j]
-                count += board[i - 1][j - 1]
-                count += board[i][j - 1]
-
-        elif self.is_border(board, i, j, n_i, n_j):
-            if n_i == 1:
-                count += board[i][j + 1]
-                count += board[i][j - 1]
-            elif n_j == 1:
-                count += board[i + 1][j]
-                count += board[i - 1][j]
-            elif i == 0:
-                count += board[i][j + 1]
-                count += board[i][j - 1]
-                count += board[i + 1][j]
-                count += board[i + 1][j + 1]
-                count += board[i + 1][j - 1]
-            elif i == n_i - 1:
-                count += board[i][j + 1]
-                count += board[i][j - 1]
-                count += board[i - 1][j]
-                count += board[i - 1][j + 1]
-                count += board[i - 1][j - 1]
-            elif j == 0:
-                count += board[i][j + 1]
-                count += board[i - 1][j]
-                count += board[i + 1][j]
-                count += board[i + 1][j + 1]
-                count += board[i - 1][j + 1]
-            else:
-                count += board[i][j - 1]
-                count += board[i - 1][j]
-                count += board[i + 1][j]
-                count += board[i + 1][j - 1]
-                count += board[i - 1][j - 1]
-        else:
-            count += board[i][j - 1]
-            count += board[i][j + 1]
-            count += board[i + 1][j]
-            count += board[i + 1][j - 1]
-            count += board[i + 1][j + 1]
-            count += board[i - 1][j]
-            count += board[i - 1][j + 1]
-            count += board[i - 1][j - 1]
+        indexes = [
+            (i, j - 1),
+            (i, j + 1),
+            (i + 1, j),
+            (i + 1, j + 1),
+            (i + 1, j - 1),
+            (i - 1, j),
+            (i - 1, j - 1),
+            (i - 1, j + 1),
+        ]
+        for index in indexes:
+            new_i, new_j = index
+            if new_i >= 0 and new_i < n_i and new_j >= 0 and new_j < n_j:
+                count += board[new_i][new_j]
 
         return count
-
-    def is_corner(
-        self, board: List[List[int]], i: int, j: int, n_i: int, n_j: int
-    ) -> bool:
-        return (
-            (i == 0 and j == 0)
-            or (i == n_i - 1 and j == 0)
-            or (i == 0 and j == (n_j - 1))
-            or (i == (n_i - 1) and j == n_j - 1)
-        )
-
-    def is_border(
-        self, board: List[List[int]], i: int, j: int, n_i: int, n_j: int
-    ) -> bool:
-        return i == 0 or i == n_i - 1 or j == 0 or j == n_j - 1
 
     def update_board(self, board: List[List[int]], mod: dict):
         for k, v in mod.items():
@@ -131,7 +60,7 @@ def display_board(board: List[List[int]]):
 
 
 if __name__ == "__main__":
-    board = [[1], [0], [0], [1], [0], [0], [1], [0], [0], [1]]
+    board = [[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]]
     display_board(board)
     print()
     Solution().gameOfLife(board)
