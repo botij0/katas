@@ -18,12 +18,16 @@ class Solution:
     # Evita el posible desbordamiento de Pila
     def solution2(self, A: List[int]) -> List[int]:
         skyscrapper = set()
+
         for i in range(len(A)):
             height = A[i]
+
             while height in skyscrapper:
                 height -= 1
+
             skyscrapper.add(height)
             A[i] = height
+
         return A
 
 
