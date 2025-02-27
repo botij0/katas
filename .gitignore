@@ -1,0 +1,40 @@
+# Archivos y carpetas generados por IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+*.ipr
+
+# Archivos de compilación
+target/
+bin/
+build/
+
+# Dependencias descargadas por Maven o Gradle
+.mvn/
+.mvnw*
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Archivos de log y sistema
+logs/
+*.log
+hs_err_pid*
+
+# Configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de usuario específicos de IntelliJ IDEA
+*.swp
+*.swo
+
+# Archivos de ejecución
+*.class
+*.jar
+*.war
+*.ear
+
+# Configuración local
+.env
