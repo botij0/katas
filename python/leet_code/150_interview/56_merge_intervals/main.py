@@ -5,17 +5,21 @@ class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         r = []
         intervals.sort()
-        print(intervals)
         start = intervals[0][0]
         end = intervals[0][-1]
+
         for i in range(0, len(intervals) - 1):
-            if end >= intervals[i + 1][0]:
-                end = intervals[i + 1][-1] if intervals[i + 1][-1] >= end else end
-                start = start if start <= intervals[i + 1][0] else intervals[i + 1][0]
+            current_start, current_end = intervals[i + 1]
+
+            if end >= current_start:
+                end = current_end if current_end >= end else end
+                start = start if start <= current_start else current_start
+
             else:
                 r.append([start, end])
-                start = intervals[i + 1][0]
-                end = intervals[i + 1][-1]
+                start = current_start
+                end = current_end
+
         r.append([start, end])
         return r
 
