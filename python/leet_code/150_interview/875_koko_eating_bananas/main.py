@@ -3,22 +3,17 @@ from typing import List
 
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        piles.sort()
-        n = len(piles)
-        speed = piles[n // 2]
-        total_time = self.get_total_time(piles, speed)
-        if total_time == h:
-            return speed
-        elif total_time > h:
-            while total_time > h:
-                speed += total_time // h
-                total_time = self.get_total_time(piles, speed)
-        else:
-            while total_time <= h:
-                speed -= h // total_time
-                total_time = self.get_total_time(piles, speed)
+        left, right = 1, max(piles)
+        while left < right:
+            mid = left + (right - left) // 2
+            total_time = self.get_total_time(piles, mid)
 
-        return speed
+            if total_time > h:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left
 
     def get_total_time(self, piles: List[int], speed: int) -> int:
         total_time = 0
