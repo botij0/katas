@@ -16,8 +16,16 @@ class Solution:
         if not root.left and not root.right:
             return depth
 
-        l_depth = self.minDepth(root.left, depth + 1) if root.left else 100000000000
-        r_depth = self.minDepth(root.right, depth + 1) if root.right else 10000000000000
+        next_depth = depth + 1
+
+        l_depth = self.minDepth(root.left, next_depth) if root.left else 100000000000
+
+        if l_depth == next_depth:
+            return l_depth
+
+        r_depth = (
+            self.minDepth(root.right, next_depth) if root.right else 10000000000000
+        )
 
         return min(l_depth, r_depth)
 
