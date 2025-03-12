@@ -1,13 +1,13 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n <= 3:
-            return n
+        if n == 1:
+            return 1
 
-        prev1 = 3
-        prev2 = 2
+        prev1 = 1
+        prev2 = 1
         cur = 0
 
-        for _ in range(3, n):
+        for _ in range(prev1, n):
             cur = prev1 + prev2
             prev2 = prev1
             prev1 = cur
@@ -16,7 +16,7 @@ class Solution:
 
 
 if __name__ == "__main__":
-    n = 5
+    n = 8
     print(Solution().climbStairs(n))
 
 # 5
@@ -27,22 +27,3 @@ if __name__ == "__main__":
 # 1 1 1 2
 # 2 2 1
 # 2 1 2
-
-
-# 7
-# 1 1 1 1 1 1 1
-# 1 1 1 1 1 2
-# 1 1 1 1 2 1
-# 1 1 1 2 1 1
-# 1 1 2 1 1 1
-# 1 2 1 1 1 1
-# 2 1 1 1 1 1
-# 2 2 1 1 1
-# 2 1 2 1 1
-# 2 1 1 2 1
-# 2 1 1 1 2
-# 1 2 1 1 2
-# 1 1 2 1 2
-# 1
-# 2 2 2 1
-# 2 1 2 2
