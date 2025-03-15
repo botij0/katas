@@ -22,8 +22,8 @@ class Solution:
             else:
                 aux = current.next
                 last.next = aux
-                current = None
 
+                current = None
                 current = aux
 
         return head
@@ -54,6 +54,4 @@ def array_to_linked_list(arr):
 if __name__ == "__main__":
     head = [1, 1, 1]
     head = array_to_linked_list(head)
-    print_linked_list(head)
-    # print(Solution().deleteDuplicates(head))
     print_linked_list(Solution().deleteDuplicates(head))
