@@ -17,15 +17,12 @@ class Solution:
 
         current += root.val
 
-        if current == targetSum and self.is_leaf(root):
+        if current == targetSum and not root.left and not root.right:
             return True
 
-        return self.hasPathSum(root.left, target_sum, current) or self.hasPathSum(
-            root.right, target_sum, current
+        return self.hasPathSum(root.left, targetSum, current) or self.hasPathSum(
+            root.right, targetSum, current
         )
-
-    def is_leaf(self, node: TreeNode) -> bool:
-        return True if not node.left and not node.right else False
 
 
 def insert_level_order(arr: list, root: Optional[TreeNode], i: int, n: int) -> TreeNode:
