@@ -1,14 +1,12 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
         numbers = set()
-        while True:
+        while n != 1:
             if n in numbers:
                 return False
-            else:
-                numbers.add(n)
 
+            numbers.add(n)
             n = self.get_new_n(n)
-            print(n)
 
             if n == 1:
                 break
@@ -18,8 +16,7 @@ class Solution:
     def get_new_n(self, n: int) -> int:
         r = 0
         while n > 0:
-            aux = n % 10
-            r += aux * aux
+            r += (n % 10) ** 2
             n //= 10
 
         return r
