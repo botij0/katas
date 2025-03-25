@@ -8,9 +8,6 @@ class Solution:
             numbers.add(n)
             n = self.get_new_n(n)
 
-            if n == 1:
-                break
-
         return True
 
     def get_new_n(self, n: int) -> int:
