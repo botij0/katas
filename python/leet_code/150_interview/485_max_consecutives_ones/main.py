@@ -7,13 +7,12 @@ class Solution:
         n_con_max = 0
         for n in nums:
             if n == 0:
-                if current > n_con_max:
-                    n_con_max = current
+                n_con_max = max(current, n_con_max)
                 current = 0
             else:
                 current += 1
 
-        return n_con_max if n_con_max > current else current
+        return max(current, n_con_max)
 
 
 if __name__ == "__main__":
