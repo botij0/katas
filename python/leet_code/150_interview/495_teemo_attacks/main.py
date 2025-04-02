@@ -3,21 +3,19 @@ from typing import List
 
 class Solution:
     def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
-        s = set(timeSeries)
-        is_poissoned = duration
-        count = 0
-        for i in range(timeSeries[0], timeSeries[-1] + 2):
-            if i in s:
-                is_poissoned = duration
+        last = timeSeries[0]
+        total = duration
+        for i in range(1, len(timeSeries)):
+            if last + (duration - 1) >= timeSeries[i]:
+                total += timeSeries[i] - last
+            else:
+                total += duration
 
-            if is_poissoned != 0:
-                is_poissoned -= 1
-                count += 1
-
-        return count + is_poissoned
+            last = timeSeries[i]
+        return total
 
 
 if __name__ == "__main__":
-    timeSeries = [1, 4]
-    duration = 2
+    timeSeries = [1, 3, 5, 7, 9, 11, 13, 15]
+    duration = 3
     print(Solution().findPoisonedDuration(timeSeries, duration))
