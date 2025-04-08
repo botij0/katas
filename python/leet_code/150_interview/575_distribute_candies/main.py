@@ -3,9 +3,7 @@ from typing import List
 
 class Solution:
     def distributeCandies(self, candyType: List[int]) -> int:
-        s = len(set(candyType))
-        n = len(candyType) // 2
-        return min(s, n)
+        return min(len(candyType) // 2, len(set(candyType)))
 
 
 if __name__ == "__main__":
