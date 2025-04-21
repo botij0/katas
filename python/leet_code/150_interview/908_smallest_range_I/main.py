@@ -3,13 +3,9 @@ from typing import List
 
 class Solution:
     def smallestRangeI(self, nums: List[int], k: int) -> int:
-        manum = max(nums)
-        minum = min(nums)
-
-        aux = manum - minum
-        x = minum + aux if aux <= k else minum + k
-        y = x if manum - x <= k else manum - k
-        return abs(x - y)
+        max_val = max(nums) - k
+        min_val = min(nums) + k
+        return max(0, max_val - min_val)
 
 
 if __name__ == "__main__":
