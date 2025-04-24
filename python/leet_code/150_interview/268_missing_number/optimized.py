@@ -3,12 +3,7 @@ from typing import List
 
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
-        n = len(nums)
-        aux = 0
-        for i in range(n + 1):
-            aux += i
-        x = sum(nums)
-        return aux - x
+        return (len(nums) * (len(nums) + 1)) // 2 - sum(nums)
 
 
 if __name__ == "__main__":
