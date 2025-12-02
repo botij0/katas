@@ -1,4 +1,5 @@
 import { readFileContent } from "../utils";
+import { getInstructionsList } from "./common";
 
 const main = async () => {
   const fileContent = await readFileContent("src/01/input.txt");
@@ -8,38 +9,16 @@ const main = async () => {
   let password = 0;
 
   instructionsList.map((instruction) => {
-    if (instruction.direction === "L") {
-      dialValue -= instruction.count % 100;
-      if (dialValue < 0) dialValue += 100;
-    } else {
-      dialValue += instruction.count % 100;
-      if (dialValue >= 100) dialValue -= 100;
-    }
+    const sign = instruction.direction === "L" ? -1 : 1;
+    dialValue += (instruction.count % 100) * sign;
+
+    if (dialValue < 0) dialValue += 100;
+    if (dialValue >= 100) dialValue -= 100;
 
     if (dialValue === 0) password += 1;
   });
 
   console.log(password);
-};
-
-type Direction = "R" | "L";
-interface Instruction {
-  direction: Direction;
-  count: number;
-}
-
-const getInstructionsList = (fileContent: string): Instruction[] => {
-  const fileContentList = fileContent.split("\n");
-  let instructionsList: Instruction[] = [];
-
-  fileContentList.map((line) => {
-    instructionsList.push({
-      direction: line[0] as Direction,
-      count: Number(line.slice(1, line.length)),
-    });
-  });
-
-  return instructionsList;
 };
 
 main();
