@@ -6,17 +6,30 @@ const main = async () => {
 
   let dialValue = 50;
   let password = 0;
+  let previusDial = 50;
 
   instructionsList.map((instruction) => {
+    const r = instruction.count % 100;
+    const p = Math.floor(instruction.count / 100);
+    previusDial = dialValue;
+
     if (instruction.direction === "L") {
-      dialValue -= instruction.count % 100;
-      if (dialValue < 0) dialValue += 100;
+      dialValue -= r;
+      password += 1 * p;
+      if (dialValue < 0) {
+        dialValue += 100;
+        if (previusDial !== 0) password += 1;
+      }
     } else {
-      dialValue += instruction.count % 100;
-      if (dialValue >= 100) dialValue -= 100;
+      dialValue += r;
+      password += 1 * p;
+      if (dialValue >= 100) {
+        dialValue -= 100;
+        if (dialValue !== 0) password += 1;
+      }
     }
 
-    if (dialValue === 0) password += 1;
+    if (dialValue === 0 && r !== 0) password += 1;
   });
 
   console.log(password);

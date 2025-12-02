@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "day1": "npx tsx src/01/secretEntrance.ts"
+    "day1-part1": "npx tsx src/01/secretEntrance.ts",
+    "day1-part2": "npx tsx src/01/part2.ts"
   },
   "author": "",
   "license": "ISC",
