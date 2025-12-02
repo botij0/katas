@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "day1-part1": "npx tsx src/01/secretEntrance.ts",
-    "day1-part2": "npx tsx src/01/part2.ts"
+    "day1-part2": "npx tsx src/01/part2.ts",
+    "day2-part1": "npx tsx src/02/part1.ts"
   },
   "author": "",
   "license": "ISC",
