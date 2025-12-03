@@ -1,22 +1,16 @@
 import { readFileContent } from "../utils";
 
 const main = async () => {
-  const fileContent = await readFileContent("src/02/example.txt");
+  const fileContent = await readFileContent("src/02/input.txt");
   const idsRangeList = getIdsRangeList(fileContent);
 
   let r = 0;
+  // console.log(idsRangeList);
   idsRangeList.map((range) => {
-    if (range.start % 2 !== 0 && range.end % 2 !== 0) return;
-
     for (let i = range.start; i < range.end + 1; i++) {
       const sNumber = String(i);
       const nLength = sNumber.length;
 
-      // console.log(
-      //   i,
-      //   sNumber.slice(0, Math.floor(nLength / 2)),
-      //   sNumber.slice(Math.floor(nLength / 2), nLength)
-      // );
       if (
         nLength % 2 === 0 &&
         sNumber.slice(0, Math.floor(nLength / 2)) ===
