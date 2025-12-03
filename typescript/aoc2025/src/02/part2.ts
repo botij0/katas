@@ -1,4 +1,5 @@
 import { readFileContent } from "../utils";
+import { getIdsRangeList } from "./common";
 
 const main = async () => {
   const fileContent = await readFileContent("src/02/input.txt");
@@ -33,11 +34,6 @@ const main = async () => {
   console.log(r);
 };
 
-interface Range {
-  start: number;
-  end: number;
-}
-
 const getDividers = (n: number): number[] => {
   const dividers: number[] = [];
 
@@ -52,19 +48,6 @@ const getDividers = (n: number): number[] => {
   }
 
   return dividers;
-};
-
-const getIdsRangeList = (fileContent: string): Range[] => {
-  const idsRangeList: Range[] = [];
-  fileContent.split(",").map((ranges) => {
-    const [start, end] = ranges.split("-");
-    idsRangeList.push({
-      start: Number(start),
-      end: Number(end),
-    });
-  });
-
-  return idsRangeList;
 };
 
 main();
