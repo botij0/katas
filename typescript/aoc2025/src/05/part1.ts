@@ -1,4 +1,5 @@
 import { readFileContent } from "../utils";
+import { getIds, getValidRanges } from "./common";
 
 const main = async () => {
   const fileContent = await readFileContent("src/05/input.txt");
@@ -17,28 +18,6 @@ const main = async () => {
   });
 
   console.log(r);
-};
-
-interface range {
-  a: number;
-  b: number;
-}
-
-const getValidRanges = (fileContent: string): range[] => {
-  const ranges: range[] = [];
-  fileContent
-    .split("\n\n")[0]
-    .split("\n")
-    .map((range) => {
-      const [a, b] = range.split("-").map(Number);
-      ranges.push({ a, b });
-    });
-
-  return ranges;
-};
-
-const getIds = (fileContent: string): number[] => {
-  return fileContent.split("\n\n")[1].split("\n").map(Number);
 };
 
 main();
