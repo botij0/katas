@@ -16,7 +16,8 @@
     "day6-part1": "npx tsx src/06/part1.ts",
     "day6-part2": "npx tsx src/06/part2.ts",
     "day7-part1": "npx tsx src/07/part1.ts",
-    "day7-part2": "npx tsx src/07/part2.ts"
+    "day7-part2": "npx tsx src/07/part2.ts",
+    "day8-part1": "npx tsx src/08/part1.ts"
   },
   "author": "",
   "license": "ISC",
