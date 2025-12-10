@@ -1,34 +1,29 @@
 function decodeSantaPin(code: string): string | null {
-  const regexNum = /\d{1}[+-]*|[\<]/g;
-  const passwordElements = code.match(regexNum);
+  const blocks = code.match(/\[[^\]]+\]/g);
 
-  if (!passwordElements || passwordElements.length < 4) return null;
+  if (!blocks || blocks.length < 4) return null;
 
   let result = "";
-  for (let i = 0; i < passwordElements.length; i++) {
-    const currentEl = passwordElements[i];
-    if (currentEl === "<") {
-      if (i !== 0) {
-        result += result[i - 1];
-      }
+
+  for (const block of blocks) {
+    const content = block.slice(1, -1); // Remove brackets
+
+    if (content === "<") {
+      result += result.at(-1) ?? "";
     } else {
-      let n = Number(currentEl[0]);
-      const signs = currentEl.slice(1);
+      let digit = parseInt(content[0], 10);
 
-      for (let j = 0; j < signs.length; j++) {
-        if (signs[j] === "+") n += 1;
-        else n -= 1;
-
-        if (n > 9) n = 0;
-        if (n < 0) n = 9;
+      for (const op of content.slice(1)) {
+        digit = (digit + (op === "+" ? 1 : 9)) % 10;
       }
-      result += n;
+
+      result += digit;
     }
   }
 
-  return result;
+  return result.length >= 4 ? result : null;
 }
 
-const x = decodeSantaPin("[9++][0-][4][<]"); // Expected: "0944"
-
-console.log(x);
+console.log(decodeSantaPin("[1++][2-][3+][<]")); // "3144"
+console.log(decodeSantaPin("[9+][0-][4][<]")); // "0944"
+console.log(decodeSantaPin("[1+][2-]")); // null
