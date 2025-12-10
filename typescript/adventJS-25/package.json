@@ -1,0 +1,19 @@
+{
+  "name": "aoc2025",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "day1": "npx tsx src/01/main.ts",
+    "day2": "npx tsx src/02/main.ts",
+    "day3": "npx tsx src/03/main.ts",
+    "day4": "npx tsx src/04/main.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
