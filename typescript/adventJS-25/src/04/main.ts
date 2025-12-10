@@ -9,7 +9,7 @@ function decodeSantaPin(code: string): string | null {
     const content = block.slice(1, -1); // Remove brackets
 
     if (content === "<") {
-      result += result.at(-1) ?? "";
+      result += result[result.length - 1] ?? "";
     } else {
       let digit = parseInt(content[0], 10);
 
