@@ -6,7 +6,8 @@
     "day1": "npx tsx src/01/main.ts",
     "day2": "npx tsx src/02/main.ts",
     "day3": "npx tsx src/03/main.ts",
-    "day4": "npx tsx src/04/main.ts"
+    "day4": "npx tsx src/04/main.ts",
+    "day5": "npx tsx src/05/main.ts"
   },
   "author": "",
   "license": "ISC",
