@@ -1,21 +1,20 @@
 function drawTree(height: number, ornament: string, frequency: number): string {
   let result = "";
-  let spaces = height - 1;
 
-  let position = 0;
+  let index = 1;
 
-  for (let i = 1; i <= height * 2; i += 2) {
+  for (let i = 1; i <= height; i++) {
     let treeRow = "";
-    for (let j = position + 1; j <= i + position; j++) {
-      if (j % frequency === 0) treeRow += ornament;
+    const currentRowLength = i * 2 - 1;
+
+    for (let j = 0; j < currentRowLength; j++) {
+      if ((j + index) % frequency === 0) treeRow += ornament;
       else treeRow += "*";
     }
 
-    position += treeRow.length;
+    index += currentRowLength;
 
-    result += " ".repeat(spaces) + treeRow + "\n";
-
-    spaces -= 1;
+    result += " ".repeat(height - i) + treeRow + "\n";
   }
 
   result += " ".repeat(height - 1) + "#";
@@ -24,4 +23,4 @@ function drawTree(height: number, ornament: string, frequency: number): string {
 }
 
 console.log(drawTree(5, "o", 2));
-console.log(drawTree(3, "@", 3));
+// console.log(drawTree(3, "@", 3));
