@@ -19,28 +19,25 @@ function moveReno(board: Board, moves: Moves): Result {
     .split("\n")
     .map((row) => row.split(""));
 
-  let robotPosition = [];
-  for (let i = 0; i < board2d.length; i++) {
-    if (board2d[i].includes("@")) robotPosition.push(i, board2d[i].indexOf("@"));
-  }
-
-  const moveRobot = (dir: string, robotPosition: number[]) => {
-    const currentMove = directions[dir as Directions];
-    return [robotPosition[0] + currentMove[0], robotPosition[1] + currentMove[1]];
-  };
+  const i = board2d.findIndex((row) => row.includes("@"));
+  const j = board2d[i].indexOf("@");
+  let robotPosition = [i, j];
 
   for (let i = 0; i < moves.length; i++) {
-    robotPosition = moveRobot(moves[i], robotPosition);
+    const currentMove = directions[moves[i] as Directions];
+    robotPosition = [
+      robotPosition[0] + currentMove[0],
+      robotPosition[1] + currentMove[1],
+    ];
 
     if (
       robotPosition[0] < 0 ||
       robotPosition[0] >= board2d.length ||
       robotPosition[1] < 0 ||
-      robotPosition[1] >= board2d[0].length
+      robotPosition[1] >= board2d[0].length ||
+      board2d[robotPosition[0]][robotPosition[1]] === "#"
     )
       return "crash";
-
-    if (board2d[robotPosition[0]][robotPosition[1]] === "#") return "crash";
 
     if (board2d[robotPosition[0]][robotPosition[1]] === "*") return "success";
   }
