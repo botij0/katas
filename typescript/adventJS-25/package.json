@@ -11,6 +11,7 @@
     "day6": "npx tsx src/06/main.ts",
     "day7": "npx tsx src/07/main.ts",
     "day8": "npx tsx src/08/main.ts",
+    "day9": "npx tsx src/09/main.ts",
     "day10": "npx tsx src/10/main.ts",
     "day11": "npx tsx src/11/main.ts"
   },
