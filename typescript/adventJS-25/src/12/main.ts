@@ -4,11 +4,9 @@ function elfBattle(elf1: string, elf2: string): number {
   let hpElf2 = 3;
 
   const elfTurn = (elfA: string, elfB: string): number => {
-    if (elfA === "A") {
-      if (elfB !== "B") return -1;
-    }
-
     if (elfA === "F") return -2;
+
+    if (elfA === "A" && elfB !== "B") return -1;
 
     return 0;
   };
@@ -17,11 +15,7 @@ function elfBattle(elf1: string, elf2: string): number {
     hpElf2 += elfTurn(elf1[i], elf2[i]);
     hpElf1 += elfTurn(elf2[i], elf1[i]);
 
-    if (hpElf1 <= 0 && hpElf2 <= 0 && hpElf1 === hpElf2) return 0;
-
-    if (hpElf1 <= 0 && hpElf1 < hpElf2) return 2;
-
-    if (hpElf2 <= 0 && hpElf2 < hpElf1) return 1;
+    if (hpElf1 <= 0 || hpElf2 <= 0) break;
   }
 
   if (hpElf1 === hpElf2) return 0;
@@ -30,3 +24,7 @@ function elfBattle(elf1: string, elf2: string): number {
 
   return 2;
 }
+
+console.log(elfBattle("AAB", "BBA"));
+console.log(elfBattle("AFAB", "BBAF"));
+console.log(elfBattle("AA", "FF"));
