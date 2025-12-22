@@ -1,62 +1,52 @@
 type Data = Array<Record<string, string | number>>;
-type SortBy = string;
 
-function drawTable(data: Data, sortBy: SortBy): string {
-  // Code here
+function drawTable(data: Data, sortBy: string): string {
+  const sortedData = sortData(data, sortBy);
+  const keys = Object.keys(data[0]);
+  const columnWidths = getColumnWidths(sortedData, keys);
 
-  let table = "";
+  const separator = buildSeparator(columnWidths);
+  const headerRow = buildHeaderRow(columnWidths);
+  const dataRows = sortedData.map((row) => buildDataRow(row, keys, columnWidths));
 
-  const orderData = data.sort((a, b) => {
-    if (typeof a[sortBy] === "number" && typeof b[sortBy] === "number") {
-      return a[sortBy] - b[sortBy];
-    } else if (typeof a[sortBy] === "string" && typeof b[sortBy] === "string") {
-      return a[sortBy].localeCompare(b[sortBy]);
+  return [separator, headerRow, separator, ...dataRows, separator].join("\n");
+}
+
+function sortData(data: Data, sortBy: string): Data {
+  return [...data].sort((a, b) => {
+    const valA = a[sortBy];
+    const valB = b[sortBy];
+
+    if (typeof valA === "number" && typeof valB === "number") {
+      return valA - valB;
     }
-    return 0;
+    return String(valA).localeCompare(String(valB));
   });
+}
 
-  const getKeysMaxLength = (data: Data) => {
-    const keysMaxLength = Object.fromEntries(Object.keys(data[0]).map((c) => [c, 0]));
+function getColumnWidths(data: Data, keys: string[]): number[] {
+  return keys.map((key) => Math.max(...data.map((row) => String(row[key]).length)));
+}
 
-    data.map((obj) => {
-      for (const key of Object.keys(keysMaxLength)) {
-        const l = String(obj[key]).length;
-        if (l > keysMaxLength[key]) keysMaxLength[key] = l;
-      }
-    });
+function buildSeparator(widths: number[]): string {
+  return "+" + widths.map((w) => "-".repeat(w + 2)).join("+") + "+";
+}
 
-    return keysMaxLength;
-  };
-
-  const keysMaxLength = getKeysMaxLength(orderData);
-
-  // Draw headers
-  for (let i = 0; i < 3; i++) {
-    Object.values(keysMaxLength).map((val, index) => {
-      if (i === 0 || i === 2) {
-        table += "+" + "-".repeat(val + 2);
-      } else {
-        table += "| " + String.fromCharCode(65 + index) + " ".repeat(val);
-      }
-    });
-    table += i === 1 ? "|\n" : "+\n";
-  }
-
-  // Draw Rows
-  orderData.map((obj) => {
-    for (const [key, val] of Object.entries(keysMaxLength)) {
-      const s = String(obj[key]);
-      table += "| " + obj[key] + " ".repeat(val - s.length) + " ";
-    }
-    table += "|\n";
+function buildHeaderRow(widths: number[]): string {
+  const cells = widths.map((w, i) => {
+    const header = String.fromCharCode(65 + i); // A, B, C...
+    return ` ${header.padEnd(w)} `;
   });
+  return "|" + cells.join("|") + "|";
+}
 
-  // Draw footer;
-  Object.values(keysMaxLength).map((val) => {
-    table += "+" + "-".repeat(val + 2);
-  });
-  table += "+";
-  return table;
+function buildDataRow(
+  row: Record<string, string | number>,
+  keys: string[],
+  widths: number[]
+): string {
+  const cells = keys.map((key, i) => ` ${String(row[key]).padEnd(widths[i])} `);
+  return "|" + cells.join("|") + "|";
 }
 
 console.log(
@@ -69,3 +59,28 @@ console.log(
     "name"
   )
 );
+// +---------+----------+
+// | A       | B        |
+// +---------+----------+
+// | Alice   | London   |
+// | Bob     | Paris    |
+// | Charlie | New York |
+// +---------+----------+
+
+console.log(
+  drawTable(
+    [
+      { gift: "Book", quantity: 5 },
+      { gift: "Music CD", quantity: 1 },
+      { gift: "Doll", quantity: 10 },
+    ],
+    "quantity"
+  )
+);
+// +----------+----+
+// | A        | B  |
+// +----------+----+
+// | Music CD | 1  |
+// | Book     | 5  |
+// | Doll     | 10 |
+// +----------+----+
