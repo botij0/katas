@@ -1,0 +1,8 @@
+At the North Pole, they’ve set up a panel of Christmas lights 🎄✨ to decorate the workshop. Each light can be on with a color, or off.
+
+The panel is represented as a matrix where each cell can be:
+
+'.' → light off
+'R' → red light
+'G' → green light
+The elves want to know if there is a line of 4 lights of the same color that are on and aligned on the panel (only horizontal ↔ or vertical ↕). Lights that are off ('.') don’t count.
