@@ -16,7 +16,8 @@
     "day11": "npx tsx src/11/main.ts",
     "day12": "npx tsx src/12/main.ts",
     "day13": "npx tsx src/13/main.ts",
-    "day14": "npx tsx src/14/main.ts"
+    "day14": "npx tsx src/14/main.ts",
+    "day15": "npx tsx src/15/main.ts"
   },
   "author": "",
   "license": "ISC",
