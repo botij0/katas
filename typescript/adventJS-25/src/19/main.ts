@@ -2,19 +2,11 @@ function revealSantaRoute(routes: string[][]): string[] {
   // Code here
   const finalRoute: string[] = routes.shift() ?? [];
   let currentLocation = finalRoute[finalRoute.length - 1];
-  let nextLocation = currentLocation;
 
-  while (routes.length >= 0) {
-    for (const route of routes) {
-      if (nextLocation === route[0]) {
-        nextLocation = route[1];
-        routes = routes.filter((r) => r !== route);
-        finalRoute.push(nextLocation);
-        break;
-      }
-    }
-    if (nextLocation === currentLocation) break;
-    currentLocation = nextLocation;
+  const routesMap = new Map(routes.map((r) => [r[0], r[1]]));
+  while (routesMap.get(currentLocation) !== undefined) {
+    currentLocation = routesMap.get(currentLocation)!;
+    finalRoute.push(currentLocation);
   }
 
   return finalRoute;
